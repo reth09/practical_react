@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovieDetails } from '../actions/movieActions';
+import { useParams } from 'react-router-dom';
 
 export default function MovieDetails() {
     const { id } = useParams();
@@ -12,13 +12,40 @@ export default function MovieDetails() {
         dispatch(fetchMovieDetails(id));
     }, [dispatch, id]);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
+    if (loading)
+        return (
+            <div className="text-center my-5">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
+
+    if (error)
+        return (
+            <div className="text-center my-5 text-danger">
+                <p>Error: {error}</p>
+            </div>
+        );
 
     return (
-        <div>
-            <h1>{movieDetails.title}</h1>
-            <p>{movieDetails.overview}</p>
+        <div className="container w-75 my-5">
+            <div className="row">
+                <div className="col-md-5">
+                    <img
+                        src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`}
+                        alt={movieDetails.title}
+                        className="img-fluid rounded"
+                    />
+                </div>
+                <div className="col-md-7 text-start">
+                    <h2>{movieDetails.title}</h2>
+                    <p>{movieDetails.overview}</p>
+                    <p><strong>Release Date:</strong> {movieDetails.release_date}</p>
+                    <p><strong>Genres:</strong> {movieDetails.genres?.map((g) => g.name).join(', ')}</p>
+                    <p><strong>Rating:</strong> {movieDetails.vote_average}/10</p>
+                </div>
+            </div>
         </div>
     );
 }

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPopularMovies } from '../actions/movieActions';
@@ -32,17 +33,19 @@ export default function MovieList() {
             <div className="row">
                 {movies.map((movie) => (
                     <div className="col-md-3 col-sm-6 my-3" key={movie.id}>
-                        <div className="card movie-card">
-                            <img
-                                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                                alt={movie.title}
-                                className="card-img-top"
-                            />
-                            <div className="card-body">
-                                <h5 className="movie-title">{movie.title}</h5>
-                                <p className="movie-info">Release Date: {movie.release_date}</p>
+                        <Link to={`/movies/${movie.id}`} className="text-decoration-none">
+                            <div className="card movie-card">
+                                <img
+                                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                                    alt={movie.title}
+                                    className="card-img-top"
+                                />
+                                <div className="card-body">
+                                    <h5 className="movie-title">{movie.title}</h5>
+                                    <p className="movie-info">Release Date: {movie.release_date}</p>
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 ))}
             </div>

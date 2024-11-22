@@ -1,4 +1,7 @@
 import { fetchPopularMoviesAPI, fetchMovieDetailsAPI, searchMoviesAPI } from '../utils/api';
+import axios from 'axios';
+
+
 
 const FETCH_MOVIES = 'FETCH_MOVIES';
 const FETCH_MOVIE_DETAILS = 'FETCH_MOVIE_DETAILS';
@@ -7,6 +10,7 @@ const ERROR = 'ERROR';
 
 const fetchMovies = (movies) => ({ type: FETCH_MOVIES, payload: movies });
 let fetchMovieDetails = (details) => ({ type: FETCH_MOVIE_DETAILS, payload: details });
+const SEARCH_MOVIES = 'SEARCH_MOVIES';
 const setLoading = () => ({ type: LOADING });
 const setError = (error) => ({ type: ERROR, payload: error });
 
@@ -20,25 +24,27 @@ const fetchPopularMovies = () => async (dispatch) => {
     }
 };
 
-fetchMovieDetails = (movieId) => async (dispatch) => {
-    dispatch(setLoading());
+fetchMovieDetails = (id) => async (dispatch) => {
+    dispatch({ type: 'MOVIE_DETAILS_REQUEST' });
     try {
-        const response = await fetchMovieDetailsAPI(movieId);
-        dispatch(fetchMovieDetails(response.data));
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=653f60d0b16e47ad33dd9ad4fe52f827`);
+        dispatch({ type: 'MOVIE_DETAILS_SUCCESS', payload: response.data });
     } catch (error) {
-        dispatch(setError(error.message));
+        dispatch({ type: 'MOVIE_DETAILS_FAIL', payload: error.message });
     }
 };
 
 const searchMovies = (query) => async (dispatch) => {
-    dispatch(setLoading());
+    dispatch({ type: SET_LOADING });
     try {
-        const response = await searchMoviesAPI(query);
-        dispatch(fetchMovies(response.data.results));
+        const response = await axios.get(`${API_URL}/search/movie`, {
+            params: { api_key: API_KEY, query }
+        });
+        dispatch({ type: SEARCH_MOVIES, payload: response.data.results });
     } catch (error) {
-        dispatch(setError(error.message));
+        dispatch({ type: SET_ERROR, payload: error.message });
     }
 };
 
 
-export {FETCH_MOVIES,FETCH_MOVIE_DETAILS,LOADING, ERROR, fetchMovies,fetchMovieDetails,setLoading, setError, fetchPopularMovies, searchMovies}
+export {FETCH_MOVIES,FETCH_MOVIE_DETAILS,LOADING, ERROR, fetchMovies,fetchMovieDetails,setLoading, setError, fetchPopularMovies, searchMovies, SEARCH_MOVIES}

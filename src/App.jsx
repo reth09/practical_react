@@ -16,9 +16,11 @@ function App() {
     <>
       <div>
         <Navbar />
+        <MovieSearch/>
         <Routes>
           <Route path='/' element={<MovieList />} />
           <Route path='/search' element={<MovieSearch />} />
+          <Route path='/movies/:id' element={<MovieDetails/>} />
           <Route
             path='/details/:id'
             element={
