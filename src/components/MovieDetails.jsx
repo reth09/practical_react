@@ -30,7 +30,7 @@ export default function MovieDetails() {
 
     return (
         <div className="container w-75 my-5">
-            <div className="row">
+            <div className="row border rounded p-1 py-3">
                 <div className="col-md-5">
                     <img
                         src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`}
