@@ -4,6 +4,8 @@ const initialState = { movies: [], movieDetails: {}, loading: false, error: null
 
 export default function movieReducer(state = initialState, action) {
     switch (action.type) {
+        case 'SET_MOVIES':
+            return { ...state, movies: action.payload };
         case FETCH_MOVIES:
             return { ...state, movies: action.payload, loading: false };
         case 'MOVIE_DETAILS_REQUEST':
@@ -13,7 +15,7 @@ export default function movieReducer(state = initialState, action) {
         case 'MOVIE_DETAILS_FAIL':
             return { ...state, loading: false, error: action.payload };
         case SEARCH_MOVIES:
-            return { ...state, loading: false, movies: action.payload };
+            return { ...state, movies: action.payload, loading: false, error: null };
         case LOADING:
             return { ...state, loading: true };
         case ERROR:

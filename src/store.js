@@ -1,5 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './reducers'; 
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import movieReducer from './reducers/movieReducer';
+
+const rootReducer = combineReducers({
+    movies: movieReducer,
+});
 
 const store = configureStore({
     reducer: rootReducer,

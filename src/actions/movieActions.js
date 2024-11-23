@@ -7,12 +7,16 @@ const FETCH_MOVIES = 'FETCH_MOVIES';
 const FETCH_MOVIE_DETAILS = 'FETCH_MOVIE_DETAILS';
 const LOADING = 'LOADING';
 const ERROR = 'ERROR';
+const LOGIN = 'LOGIN';
+const LOGOUT = 'LOGOUT';
+const SEARCH_MOVIES = 'SEARCH_MOVIES';
 
 const fetchMovies = (movies) => ({ type: FETCH_MOVIES, payload: movies });
 let fetchMovieDetails = (details) => ({ type: FETCH_MOVIE_DETAILS, payload: details });
-const SEARCH_MOVIES = 'SEARCH_MOVIES';
 const setLoading = () => ({ type: LOADING });
 const setError = (error) => ({ type: ERROR, payload: error });
+const login = () => ({ type: LOGIN });
+const logout = () => ({ type: LOGOUT });
 
 const fetchPopularMovies = () => async (dispatch) => {
     dispatch(setLoading());
@@ -35,16 +39,14 @@ fetchMovieDetails = (id) => async (dispatch) => {
 };
 
 const searchMovies = (query) => async (dispatch) => {
-    dispatch({ type: SET_LOADING });
+    dispatch(setLoading());
     try {
-        const response = await axios.get(`${API_URL}/search/movie`, {
-            params: { api_key: API_KEY, query }
-        });
+        const response = await searchMoviesAPI(query);
         dispatch({ type: SEARCH_MOVIES, payload: response.data.results });
     } catch (error) {
-        dispatch({ type: SET_ERROR, payload: error.message });
+        dispatch(setError(error.message));
     }
 };
 
 
-export {FETCH_MOVIES,FETCH_MOVIE_DETAILS,LOADING, ERROR, fetchMovies,fetchMovieDetails,setLoading, setError, fetchPopularMovies, searchMovies, SEARCH_MOVIES}
+export {FETCH_MOVIES,FETCH_MOVIE_DETAILS,LOADING, ERROR, fetchMovies,fetchMovieDetails,setLoading, setError, fetchPopularMovies, SEARCH_MOVIES, searchMovies, LOGIN, LOGOUT, login, logout}

@@ -13,21 +13,21 @@ export default function MovieSearch() {
     const handleSearch = (e) => {
         e.preventDefault();
         if (query.trim()) {
-            dispatch(searchMovies(query));  
+            dispatch(searchMovies(query));
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSearch}>
+        <div className="container my-4 w-25">
+            <form className="d-flex border-white border rounded" onSubmit={handleSearch}>
                 <input
                     type="text"
                     value={query}
                     onChange={handleInputChange}
                     placeholder="Search for movies..."
-                    className="form-control"
+                    className="form-control rounded-end-0"
                 />
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-dark rounded-start-0 ">
                     Search
                 </button>
             </form>
